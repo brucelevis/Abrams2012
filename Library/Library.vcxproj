@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Allegro2DEngine\Engine\a2de_base.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\a2de_exceptions.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\a2de_graphics.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\a2de_input.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\a2de_math.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\a2de_messages.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\a2de_physics.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\a2de_time.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\a2de_vals.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Abrams2DEngine.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Exceptions\CAudioNotAvailableException.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Exceptions\CBitmapCreationFailureException.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Exceptions\CBitmapLoadFailureException.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Exceptions\CException.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Exceptions\CFileNotFoundException.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Exceptions\CIndexOutOfBoundsException.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Exceptions\CInputNotAvailableException.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Exceptions\CInvalidArgumentException.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Exceptions\CTypeNotSupportedException.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Games\ADTGame.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\GFX\CAnimatedSprite.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\GFX\CAnimationFrame.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\GFX\CAnimationFrameSet.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\GFX\CAnimationHandler.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\GFX\CBitmapCache.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\GFX\CGameWindow.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\GFX\CRenderManager.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\GFX\CSprite.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\GFX\CSpriteHandler.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\GFX\CTileSet.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\GFX\IDrawable.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Input\CInputHandler.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Input\CJoystick.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Input\CJoystickInputHandler.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Input\CKeyboardInputHandler.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Input\CMouse.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Input\CMouseInputHandler.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CArc.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CCircle.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CEllipse.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CLine.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CMatrix2x2.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CMatrix3x3.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CMatrix4x4.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CMiscMath.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CPoint.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CPolygon.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CRectangle.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CSector.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CShape.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CSpline.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CTransform.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CTransform2D.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CTriangle.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CVector2D.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CVector3D.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\CVector4D.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Math\MathConstants.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Messages\ADTMessage.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Messages\CMessageHandler.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Messages\IMessageReceiver.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Messages\IMessageSender.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\a2de_force_generators.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\AABB.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\CCamera.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\CContactPair.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\CFluidPhysicsArea.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\CPhysicsArea.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\CQuadTree.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\CRigidBody.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\CRigidBodyState.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\CTrigger.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\CWorld.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\ForceGenerators\ADTForceGenerator.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\ForceGenerators\CCableForceGenerator.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\ForceGenerators\CDragForceGenerator.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\ForceGenerators\CGravityForceGenerator.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\ForceGenerators\CSpringForceGenerator.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\IBoundingBox.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\IUpdatable.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Physics\OBB.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Time\ADTtime.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Time\CAlarm.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Time\CStopwatch.h" />
+    <ClInclude Include="..\Allegro2DEngine\Engine\Time\CTimer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Allegro2DEngine\Engine\Exceptions\CAudioNotAvailableException.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Exceptions\CBitmapCreationFailureException.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Exceptions\CBitmapLoadFailureException.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Exceptions\CException.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Exceptions\CFileNotFoundException.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Exceptions\CIndexOutOfBoundsException.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Exceptions\CInputNotAvailableException.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Exceptions\CInvalidArgumentException.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Exceptions\CTypeNotSupportedException.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Games\ADTGame.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\GFX\CAnimatedSprite.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\GFX\CAnimationFrame.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\GFX\CAnimationFrameSet.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\GFX\CAnimationHandler.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\GFX\CBitmapCache.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\GFX\CGameWindow.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\GFX\CRenderManager.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\GFX\CSprite.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\GFX\CSpriteHandler.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\GFX\CTileSet.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Input\CInputHandler.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Input\CJoystick.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Input\CJoystickInputHandler.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Input\CKeyboardInputHandler.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Input\CMouse.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Input\CMouseInputHandler.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CArc.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CCircle.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CEllipse.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CLine.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CMatrix2x2.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CMatrix3x3.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CMatrix4x4.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CMiscMath.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CPoint.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CPolygon.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CRectangle.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CSector.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CShape.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CSpline.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CTransform.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CTransform2D.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CTriangle.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CVector2D.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CVector3D.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Math\CVector4D.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Messages\ADTMessage.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Messages\CMessageHandler.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\AABB.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\CCamera.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\CContactPair.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\CFluidPhysicsArea.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\CPhysicsArea.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\CRigidBody.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\CRigidBodyState.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\CTrigger.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\CWorld.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\ForceGenerators\ADTForceGenerator.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\ForceGenerators\CCableForceGenerator.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\ForceGenerators\CDragForceGenerator.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\ForceGenerators\CGravityForceGenerator.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\ForceGenerators\CSpringForceGenerator.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Physics\OBB.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Time\ADTtime.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Time\CAlarm.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Time\CStopwatch.cpp" />
+    <ClCompile Include="..\Allegro2DEngine\Engine\Time\CTimer.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{88FFA4A6-7EDB-43EC-9B16-904C2888E13B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Library</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\VisualStudioProjectProperties\Allegro\VS2012\5.0\Allegro5.Project.Build.Debug.Defaults.props" />
+    <Import Project="..\..\..\..\VisualStudioProjectProperties\JustThread\JustThread.Solution.Defaults.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\VisualStudioProjectProperties\Allegro\VS2012\5.0\Allegro5.Project.Build.Release.Defaults.props" />
+    <Import Project="..\..\..\..\VisualStudioProjectProperties\JustThread\JustThread.Solution.Defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>a2dge</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>a2dged</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(SolutionName)_$(ConfigurationName).pdb</ProgramDataBaseFileName>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <MinimalRebuild>false</MinimalRebuild>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+    <PostBuildEvent />
+    <PostBuildEvent />
+    <CustomBuildStep>
+      <Command>start "Debug Post Build" "D:/Allegro2DEngine/A2DEDebugPostBuild.bat" 2012</Command>
+      <Message>Copying files to Beta Distro</Message>
+      <Outputs>dummy.out</Outputs>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(SolutionName)_$(ConfigurationName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+    <PostBuildEvent />
+    <PostBuildEvent />
+    <CustomBuildStep>
+      <Command>start "Release Post Build" "D:/Allegro2DEngine/A2DEReleasePostBuild.bat" 2012</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>dummy.out</Outputs>
+      <Message>Copying Files to Release Distro (Release Build)</Message>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
