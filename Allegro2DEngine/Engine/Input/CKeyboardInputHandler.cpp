@@ -39,4 +39,27 @@ void KeyboardInputHandler::SetKeyUpCallback(const std::function<bool(ALLEGRO_EVE
     _keyup_event_callback = keyup_callback;
 }
 
+bool KeyboardInputHandler::KeyDown(int keycode) {
+    return !_previous_keys[keycode] && _current_keys[keycode];
+}
+
+bool KeyboardInputHandler::KeyPress(int keycode) {
+    return _previous_keys[keycode] && _current_keys[keycode];
+}
+
+bool KeyboardInputHandler::KeyUp(int keycode) {
+    return _previous_keys[keycode] && !_current_keys[keycode];
+}
+
+void KeyboardInputHandler::Update() {
+    ALLEGRO_KEYBOARD_STATE state;
+    al_get_keyboard_state(&state);
+
+    _previous_keys = _current_keys;
+
+    for(std::size_t i = 0; i < ALLEGRO_KEY_MAX; ++i) {
+        _current_keys[i] = al_key_down(&state, i);
+    }
+}
+
 A2DE_END

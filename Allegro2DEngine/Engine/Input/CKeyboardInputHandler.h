@@ -1,6 +1,7 @@
 #ifndef A2DE_KEYBOARDINPUTHANDLER_H
 #define A2DE_KEYBOARDINPUTHANDLER_H
 
+#include <bitset>
 #include <functional>
 
 #include "../a2de_vals.h"
@@ -59,6 +60,32 @@ public:
      **************************************************************************************************/
     void SetKeyUpCallback(const std::function<bool(ALLEGRO_EVENT*)>& keyup_callback);
 
+    /**************************************************************************************************
+     * <summary>Queries whether or not the key has just been pressed.</summary>
+     * <remarks>Casey Ugone, 10/31/2014.</remarks>
+     * <param name="keycode">The keycode.</param>
+     * <returns>true if it is, false if it is not.</returns>
+     **************************************************************************************************/
+    bool KeyDown(int keycode);
+
+    /**************************************************************************************************
+    * <summary>Queries whether or not the key is held down.</summary>
+    * <remarks>Casey Ugone, 10/31/2014.</remarks>
+    * <param name="keycode">The keycode.</param>
+    * <returns>true if it is, false if it is not.</returns>
+     **************************************************************************************************/
+    bool KeyPress(int keycode);
+
+    /**************************************************************************************************
+    * <summary>Queries whether or not the key has just been released.</summary>
+    * <remarks>Casey Ugone, 10/31/2014.</remarks>
+    * <param name="keycode">The keycode.</param>
+    * <returns>true if it is, false if it is not.</returns>
+     **************************************************************************************************/
+    bool KeyUp(int keycode);
+
+    void Update();
+
 protected:
 private:
 
@@ -76,6 +103,9 @@ private:
      * <summary>The keyup event callback.</summary>
      **************************************************************************************************/
     std::function<bool(ALLEGRO_EVENT*)> _keyup_event_callback;
+
+    std::bitset<ALLEGRO_KEY_MAX> _previous_keys;
+    std::bitset<ALLEGRO_KEY_MAX> _current_keys;
 
 };
 

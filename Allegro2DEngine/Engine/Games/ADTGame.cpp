@@ -102,6 +102,8 @@ void Game::MainLoop() {
             al_drop_next_event(e);
         }
 
+        this->GetKeyboardInputHandler().Update();
+
         //Keyboard input callbacks
         this->GetKeyboardInputHandler().SetKeyDownCallback(std::bind(&a2de::KeyDown, this, &ev));
         this->GetKeyboardInputHandler().SetKeyCharCallback(std::bind(&a2de::KeyChar, this, &ev));
@@ -120,6 +122,7 @@ void Game::MainLoop() {
         this->GetJoystickInputHandler().SetButtonDownCallback(std::bind(&a2de::JoystickButtonDown, this, &ev));
         this->GetJoystickInputHandler().SetButtonUpCallback(std::bind(&a2de::JoystickButtonUp, this, &ev));
         this->GetJoystickInputHandler().SetConfigurationCallback(std::bind(&a2de::JoystickConfiguration, this, &ev));
+
 
         double newTime = al_get_time();
         double frameTime = (newTime - currentTime);
