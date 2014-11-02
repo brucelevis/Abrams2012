@@ -192,7 +192,7 @@ void Polygon::GetSides(std::vector<Line>& sides) const {
     for(size_t i = 0; i < _points.size(); ++i) {
         size_t x = i+1;
         if(x == _points.size()) x = 0;
-        sides.push_back(Line(_points[i], _points[x]));
+        sides.push_back(Line(_points[i].GetPosition(), _points[x].GetPosition()));
     }
 }
 
