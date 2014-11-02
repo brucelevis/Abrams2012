@@ -150,7 +150,7 @@ bool Spline::Intersects(const Line& line) const {
 
     //Perform agonizingly slow O(n^2) line search.
     for(std::size_t i = 0; i < _result_points.size() - 1; ++i) {
-        Line current_line(_result_points.at(i), _result_points.at(i+1));
+        Line current_line(_result_points.at(i).GetPosition(), _result_points.at(i+1).GetPosition());
         if(current_line.Intersects(line)) return true;
     }
     return false;
