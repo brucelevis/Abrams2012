@@ -668,8 +668,8 @@ std::vector<ContactData> World::CircleRectangleCollisionSolver(a2de::RigidBody* 
 }
 
 std::vector<ContactData> World::RectangleLineCollisionSolver(a2de::RigidBody* first_body, a2de::RigidBody* second_body) {
-    a2de::Rectangle first_shape(*dynamic_cast<a2de::Rectangle*>(first_body));
-    a2de::Line second_shape(*dynamic_cast<a2de::Line*>(second_body));
+    a2de::Rectangle first_shape(*dynamic_cast<a2de::Rectangle*>(first_body->GetCollisionShape()));
+    a2de::Line second_shape(*dynamic_cast<a2de::Line*>(second_body->GetCollisionShape()));
 
     std::vector<ContactData> contact_result;
     if(first_shape.Intersects(second_shape) == false) return contact_result;
@@ -683,6 +683,36 @@ std::vector<ContactData> World::RectangleRectangleCollisionSolver(a2de::RigidBod
 
     std::vector<ContactData> contact_result;
     if(first_shape.Intersects(second_shape) == false) return contact_result;
+
+    a2de::Vector2D p1 = first_shape.GetPosition();
+    a2de::Vector2D p2 = second_shape.GetPosition();
+
+    a2de::Vector2D p1_to_p2_direction = (p2 - p1).Normalize();
+    a2de::Vector2D p2_to_p1_direction = (p1 - p2).Normalize();
+
+    double p1hw = first_shape.GetHalfWidth();
+    double p1hh = first_shape.GetHalfHeight();
+
+    a2de::Vector2D p1_horizontal_projection = a2de::Vector2D::GetProjection(p1_to_p2_direction, a2de::Vector2D(p1hw, 0.0));
+    a2de::Vector2D p1_vertical_projection = a2de::Vector2D::GetProjection(p1_to_p2_direction, a2de::Vector2D(0.0, p1hh));
+
+    double p2hw = second_shape.GetHalfWidth();
+    double p2hh = second_shape.GetHalfHeight();
+
+    a2de::Vector2D p2_horizontal_projection = a2de::Vector2D::GetProjection(p2_to_p1_direction, a2de::Vector2D(p2hw, 0.0));
+    a2de::Vector2D p2_vertical_projection = a2de::Vector2D::GetProjection(p2_to_p1_direction, a2de::Vector2D(0.0, p2hh));
+
+    double p1pax = (p1_horizontal_projection * p1hw).GetLength();
+    double p1pay = (p1_vertical_projection * p1hh).GetLength();
+
+    double p2pax = (p2_horizontal_projection * p2hw).GetLength();
+    double p2pay = (p2_vertical_projection * p2hh).GetLength();
+
+    contact_result.push_back(ContactData(p1_horizontal_projection, p1_to_p2_direction, p1pax, *first_body, *second_body));
+    contact_result.push_back(ContactData(p1_vertical_projection, p1_to_p2_direction, p1pay, *first_body, *second_body));
+
+    contact_result.push_back(ContactData(p2_horizontal_projection, p2_to_p1_direction, p2pax, *second_body, *first_body));
+    contact_result.push_back(ContactData(p2_vertical_projection, p2_to_p1_direction, p2pay, *second_body, *first_body));
 
     return contact_result;
 }
