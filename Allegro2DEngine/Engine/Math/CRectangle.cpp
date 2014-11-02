@@ -110,35 +110,6 @@ Rectangle::Rectangle(const Vector2D& position, const Vector2D& half_extents, con
         CalculateArea();
 }
 
-Rectangle::Rectangle(const Point& topLeft, const Point& bottomRight)
-    : Shape(topLeft.GetX(), topLeft.GetY(), bottomRight.GetX() - topLeft.GetX(), bottomRight.GetY() - topLeft.GetY()) {
-        _type = Shape::SHAPETYPE_RECTANGLE;
-        CalculateCenter();
-        CalculateArea();
-}
-Rectangle::Rectangle(const Point& topLeft, const Point& bottomRight, const ALLEGRO_COLOR& color)
-    : Shape(topLeft.GetPosition(), bottomRight.GetPosition() - topLeft.GetPosition(), color) {
-        _type = Shape::SHAPETYPE_RECTANGLE;
-        CalculateCenter();
-        CalculateArea();
-}
-Rectangle::Rectangle(const Point& topLeft, const Point& bottomRight, const ALLEGRO_COLOR& color, bool filled)
-    : Shape(topLeft.GetPosition(), bottomRight.GetPosition() - topLeft.GetPosition(), color, filled) {
-        _type = Shape::SHAPETYPE_RECTANGLE;
-        CalculateCenter();
-        CalculateArea();
-}
-Rectangle::Rectangle(const Line& top, const Line& bottom, const ALLEGRO_COLOR& color, bool filled)
-: Shape(std::min<double>(top.GetPointOne().GetX(), top.GetPointTwo().GetX()),
-        std::min<double>(top.GetPointOne().GetY(), top.GetPointTwo().GetY()),
-        std::max<double>(bottom.GetPointOne().GetX(), bottom.GetPointTwo().GetX()) - std::min<double>(bottom.GetPointOne().GetX(), bottom.GetPointTwo().GetX()),
-        std::max<double>(bottom.GetPointOne().GetY(), bottom.GetPointTwo().GetY()) - std::min<double>(top.GetPointOne().GetY(), top.GetPointTwo().GetY()),
-        color,
-        filled) {
-    _type = Shape::SHAPETYPE_RECTANGLE;
-    CalculateCenter();
-    CalculateArea();
-}
 Rectangle::Rectangle(const Rectangle& rect) : Shape(rect) {
     _type = Shape::SHAPETYPE_RECTANGLE;
     CalculateCenter();
@@ -361,16 +332,16 @@ void Rectangle::Overlap(const Rectangle& rectIN, Rectangle& rectOUT, bool& resul
         return;
     }
 
-    a2de::Vector2D my_TL(this->GetTopLeft().GetPosition());
-    a2de::Vector2D my_BR(this->GetBottomRight().GetPosition());
+    a2de::Vector2D my_TL(this->_position - this->_half_extents);
+    a2de::Vector2D my_BR(this->_position + this->_half_extents);
 
-    a2de::Vector2D your_TL(rectIN.GetTopLeft().GetPosition());
-    a2de::Vector2D your_BR(rectIN.GetBottomRight().GetPosition());
+    a2de::Vector2D your_TL(rectIN._position - rectIN._half_extents);
+    a2de::Vector2D your_BR(rectIN._position + rectIN._half_extents);
 
     a2de::Vector2D topLeft(std::max(my_TL.GetX(), your_TL.GetX()), std::max(my_TL.GetY(), your_TL.GetY()));
     a2de::Vector2D bottomRight(std::min(my_BR.GetX(), your_BR.GetX()), std::min(my_BR.GetY(), your_BR.GetY()));
 
-    rectOUT = Rectangle(topLeft, bottomRight - topLeft);
+    rectOUT = Rectangle(topLeft, bottomRight);
     result = true;
 }
 

@@ -158,43 +158,6 @@ public:
     Rectangle(const Vector2D& position, const Vector2D& half_extents, const ALLEGRO_COLOR& color, bool filled);
 
     /**************************************************************************************************
-     * <summary>Constructor.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     * <param name="topLeft">    The top left.</param>
-     * <param name="bottomRight">The bottom right.</param>
-     **************************************************************************************************/
-    Rectangle(const Point& topLeft, const Point& bottomRight);
-
-    /**************************************************************************************************
-     * <summary>Constructor.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     * <param name="topLeft">    The top left.</param>
-     * <param name="bottomRight">The bottom right.</param>
-     * <param name="color">      The color.</param>
-     **************************************************************************************************/
-    Rectangle(const Point& topLeft, const Point& bottomRight, const ALLEGRO_COLOR& color);
-
-    /**************************************************************************************************
-     * <summary>Constructor.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     * <param name="topLeft">    The top left.</param>
-     * <param name="bottomRight">The bottom right.</param>
-     * <param name="color">      The color.</param>
-     * <param name="filled">     true to filled.</param>
-     **************************************************************************************************/
-    Rectangle(const Point& topLeft, const Point& bottomRight, const ALLEGRO_COLOR& color, bool filled);
-
-    /**************************************************************************************************
-     * <summary>Constructor.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     * <param name="top">   The top.</param>
-     * <param name="bottom">The bottom.</param>
-     * <param name="color"> The color.</param>
-     * <param name="filled">true to filled.</param>
-     **************************************************************************************************/
-    Rectangle(const Line& top, const Line& bottom, const ALLEGRO_COLOR& color, bool filled);
-
-    /**************************************************************************************************
      * <summary>Copy constructor.</summary>
      * <remarks>Casey Ugone, 9/3/2012.</remarks>
      * <param name="rect">The rectangle.</param>
