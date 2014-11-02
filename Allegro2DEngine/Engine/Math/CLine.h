@@ -77,23 +77,6 @@ public:
      * <param name="one">The one.</param>
      * <param name="two">The two.</param>
      **************************************************************************************************/
-    Line(const Point& one, const Point& two);
-
-    /**************************************************************************************************
-     * <summary>Constructor.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     * <param name="one">  The one.</param>
-     * <param name="two">  The two.</param>
-     * <param name="color">The color.</param>
-     **************************************************************************************************/
-    Line(const Point& one, const Point& two, const ALLEGRO_COLOR& color);
-
-    /**************************************************************************************************
-     * <summary>Constructor.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     * <param name="one">The one.</param>
-     * <param name="two">The two.</param>
-     **************************************************************************************************/
     Line(const Vector2D& one, const Vector2D& two);
 
     /**************************************************************************************************
@@ -123,28 +106,28 @@ public:
      * <remarks>Casey Ugone, 9/3/2012.</remarks>
      * <returns>The point one.</returns>
      **************************************************************************************************/
-    const Vector2D& GetPointOne() const;
+    Vector2D GetPointOne() const;
 
     /**************************************************************************************************
      * <summary>Gets the point one.</summary>
      * <remarks>Casey Ugone, 9/3/2012.</remarks>
      * <returns>The point one.</returns>
      **************************************************************************************************/
-    Vector2D& GetPointOne();
+    Vector2D GetPointOne();
 
     /**************************************************************************************************
      * <summary>Gets the point two.</summary>
      * <remarks>Casey Ugone, 9/3/2012.</remarks>
      * <returns>The point two.</returns>
      **************************************************************************************************/
-    const Vector2D& GetPointTwo() const;
+    Vector2D GetPointTwo() const;
 
     /**************************************************************************************************
      * <summary>Gets the point two.</summary>
      * <remarks>Casey Ugone, 9/3/2012.</remarks>
      * <returns>The point two.</returns>
      **************************************************************************************************/
-    Vector2D& GetPointTwo();
+    Vector2D GetPointTwo();
 
 
     /**************************************************************************************************
@@ -216,43 +199,6 @@ public:
      * <returns>The normal.</returns>
      **************************************************************************************************/
     Vector2D GetNormal();
-
-    /**************************************************************************************************
-     * <summary>Gets the points.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     * <returns>null if it fails, else the points.</returns>
-     **************************************************************************************************/
-    Point** GetPoints() const;
-
-    /**************************************************************************************************
-     * <summary>Sets a point one.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     * <param name="x">The x coordinate.</param>
-     * <param name="y">The y coordinate.</param>
-     **************************************************************************************************/
-    void SetPointOne(double x, double y);
-
-    /**************************************************************************************************
-     * <summary>Sets a point two.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     * <param name="x">The x coordinate.</param>
-     * <param name="y">The y coordinate.</param>
-     **************************************************************************************************/
-    void SetPointTwo(double x, double y);
-
-    /**************************************************************************************************
-     * <summary>Sets a point one.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     * <param name="point">The point.</param>
-     **************************************************************************************************/
-    void SetPointOne(const Vector2D& point);
-
-    /**************************************************************************************************
-     * <summary>Sets a point two.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     * <param name="point">The point.</param>
-     **************************************************************************************************/
-    void SetPointTwo(const Vector2D& point);
 
     /**************************************************************************************************
      * <summary>Assignment operator.</summary>
@@ -587,9 +533,7 @@ public:
     virtual void SetPosition(const Vector2D& position);
 
 protected:
-    /// <summary> The points </summary>
-    a2de::Vector2D _extent_one;
-    a2de::Vector2D _extent_two;
+
     /// <summary> The slope </summary>
     Vector2D _slope;
     /// <summary> The length </summary>
@@ -642,13 +586,7 @@ private:
      * <remarks>Casey Ugone, 9/3/2012.</remarks>
      **************************************************************************************************/
     virtual void CalculateArea();
-
-    /**************************************************************************************************
-     * <summary>Calculates the center.</summary>
-     * <remarks>Casey Ugone, 9/3/2012.</remarks>
-     **************************************************************************************************/
-    virtual void CalculateCenter();
-
+    
     /**************************************************************************************************
      * <summary>Sets the dimensions.</summary>
      * <remarks>Casey Ugone, 9/3/2012.</remarks>

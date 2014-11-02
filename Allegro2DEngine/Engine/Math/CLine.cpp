@@ -29,118 +29,69 @@ A2DE_BEGIN
 
 Line::Line()
     : Shape(),
-    _extent_one(a2de::Vector2D()),
-    _extent_two(a2de::Vector2D()),
      _slope(),
     _length_squared(0.0) {
     _type = Shape::SHAPETYPE_LINE;
-    CalculateLengthSquared();
     CalculateSlope();
-    CalculateCenter();
 }
 Line::Line(double x1, double y1, double x2, double y2)
-    : Shape(0.0, 0.0, 0, 0, al_map_rgb(0, 0, 0), false),
-    _extent_one(a2de::Vector2D(x1, y1)),
-    _extent_two(a2de::Vector2D(x2, y2)),
+    : Shape(a2de::Vector2D((x1 + x2) / 2.0, (y1 + y2) / 2.0), (a2de::Vector2D(x1, y1) - (a2de::Vector2D(x1 + x2, y1 + y2) / 2.0)), al_map_rgb(0, 0, 0), false),
     _slope(),
-    _length_squared(0.0) {
+    _length_squared(((_position + _half_extents) - (_position - _half_extents)).GetLengthSquared()) {
     _type = Shape::SHAPETYPE_LINE;
-    CalculateLengthSquared();
     CalculateSlope();
-    CalculateCenter();
 }
 
 Line::Line(double x1, double y1, double x2, double y2, const ALLEGRO_COLOR& color)
-    : Shape(0.0, 0.0, 0, 0, color, false),
-    _extent_one(a2de::Vector2D(x1, y1)),
-    _extent_two(a2de::Vector2D(x2, y2)),
+    : Shape((a2de::Vector2D(x1, y1) + a2de::Vector2D(x2, y2)) / 2.0, (a2de::Vector2D(x2, y2) - a2de::Vector2D(x1, y1)) / 2.0, color, false),
     _slope(),
-    _length_squared(0.0) {
+    _length_squared(((_position + _half_extents) - (_position - _half_extents)).GetLengthSquared()) {
     _type = Shape::SHAPETYPE_LINE;
-    CalculateLengthSquared();
     CalculateSlope();
-    CalculateCenter();
-}
-
-Line::Line(const Point& one, const Point& two)
-    : Shape(0.0, 0.0, 0, 0, al_map_rgb(0, 0, 0), false),
-    _extent_one(one.GetPosition()),
-    _extent_two(two.GetPosition()),
-    _slope(),
-    _length_squared(0.0) {
-    _type = Shape::SHAPETYPE_LINE;
-    CalculateLengthSquared();
-    CalculateSlope();
-    CalculateCenter();
-}
-
-Line::Line(const Point& one, const Point& two, const ALLEGRO_COLOR& color)
-    : Shape(0.0, 0.0, 0, 0, color, false),
-    _extent_one(one.GetPosition()),
-    _extent_two(two.GetPosition()),
-    _slope(),
-    _length_squared(0.0) {
-    _type = Shape::SHAPETYPE_LINE;
-    CalculateLengthSquared();
-    CalculateSlope();
-    CalculateCenter();
 }
 
 Line::Line(const Line& line)
     : Shape(line),
-    _extent_one(line.GetPointOne()),
-    _extent_two(line.GetPointTwo()),
     _slope(),
-    _length_squared(0.0) {
+    _length_squared(line._length_squared) {
     _type = Shape::SHAPETYPE_LINE;
-    CalculateLengthSquared();
     CalculateSlope();
-    CalculateCenter();
 }
 
 Line::Line(const Vector2D& one, const Vector2D& two)
-    : Shape(0.0, 0.0, 0, 0, al_map_rgb(0, 0, 0), false),
-    _extent_one(one),
-    _extent_two(two),
+    : Shape((one + two) / 2.0, (two - one) / 2.0, al_map_rgb(0, 0, 0), false),
     _slope(),
-    _length_squared(0.0) {
+    _length_squared(((_position + _half_extents) - (_position - _half_extents)).GetLengthSquared()) {
     _type = Shape::SHAPETYPE_LINE;
-    CalculateLengthSquared();
     CalculateSlope();
-    CalculateCenter();
 }
 
 Line::Line(const Vector2D& one, const Vector2D& two, const ALLEGRO_COLOR& color)
-    : Shape(0.0, 0.0, 0, 0, color, false),
-    _extent_one(one),
-    _extent_two(two),
+    : Shape((one + two) / 2.0, (two - one) / 2.0, color, false),
     _slope(),
-    _length_squared(0.0) {
+    _length_squared(((_position + _half_extents) - (_position - _half_extents)).GetLengthSquared()) {
     _type = Shape::SHAPETYPE_LINE;
-    CalculateLengthSquared();
     CalculateSlope();
-    CalculateCenter();
-
 }
 
 Line::~Line() {
 
 }
 
-const Vector2D& Line::GetPointOne() const {
-    return _extent_one;
+Vector2D Line::GetPointOne() const {
+    return _position - _half_extents;
 }
 
-Vector2D& Line::GetPointOne() {
-    return const_cast<Vector2D&>(static_cast<const Line&>(*this).GetPointOne());
+Vector2D Line::GetPointOne() {
+    return static_cast<const Line&>(*this).GetPointOne();
 }
 
-const Vector2D& Line::GetPointTwo() const {
-    return _extent_two;
+Vector2D Line::GetPointTwo() const {
+    return _position + _half_extents;
 }
 
-Vector2D& Line::GetPointTwo() {
-    return const_cast<Vector2D&>(static_cast<const Line&>(*this).GetPointTwo());
+Vector2D Line::GetPointTwo() {
+    return static_cast<const Line&>(*this).GetPointTwo();
 }
 
 double Line::GetLength() const {
@@ -166,38 +117,11 @@ Vector2D& Line::GetSlope() {
     return const_cast<Vector2D&>(static_cast<const Line&>(*this).GetSlope());
 }
 
-void Line::SetPointOne(double x, double y) {
-    _extent_one = Vector2D(x, y);
-    CalculateLengthSquared();
-    CalculateSlope();
-    CalculateCenter();
-}
-
-void Line::SetPointTwo(double x, double y) {
-    _extent_two = Vector2D(x, y);
-    CalculateLengthSquared();
-    CalculateSlope();
-    CalculateCenter();
-}
-
-void Line::SetPointOne(const Vector2D& point) {
-    if(GetPointOne() == point) return;
-    SetPointOne(point);
-}
-
-void Line::SetPointTwo(const Vector2D& point) {
-    if(GetPointTwo() == point) return;
-    SetPointTwo(point);
-}
-
 Line& Line::operator=(const Line& rhs) {
     if(this == &rhs) return *this;
     Shape::operator=(rhs);
-    this->_extent_one = rhs._extent_one;
-    this->_extent_two = rhs._extent_two;
-    CalculateLengthSquared();
-    CalculateSlope();
-    CalculateCenter();
+    this->_slope = rhs._slope;
+    this->_length_squared = rhs._length_squared;
     return *this;
 }
 
@@ -207,8 +131,8 @@ bool Line::operator==(const Line& rhs) const {
     //the both first points are equal AND
     //the both second points are equal.
     return (
-            (this->_extent_one == rhs._extent_one) &&
-            (this->_extent_two == rhs._extent_two)
+            (this->_position == rhs._position) &&
+            (this->_half_extents == rhs._half_extents)
            );
 }
 
@@ -233,7 +157,9 @@ void Line::Draw(ALLEGRO_BITMAP* dest, const ALLEGRO_COLOR& color, bool /*filled*
 
     ALLEGRO_BITMAP* old_target = al_get_target_bitmap();
     al_set_target_bitmap(dest);
-    al_draw_line(a2de::Math::ToScreenScale(_extent_one.GetX()), a2de::Math::ToScreenScale(_extent_one.GetY()), a2de::Math::ToScreenScale(_extent_two.GetX()), a2de::Math::ToScreenScale(_extent_two.GetY()), color, 0.0);
+    a2de::Vector2D p1 = GetPointOne();
+    a2de::Vector2D p2 = GetPointTwo();
+    al_draw_line(a2de::Math::ToScreenScale(p1.GetX()), a2de::Math::ToScreenScale(p1.GetY()), a2de::Math::ToScreenScale(p2.GetX()), a2de::Math::ToScreenScale(p2.GetY()), color, 0.0);
     al_set_target_bitmap(old_target);
 
 }
@@ -312,7 +238,7 @@ bool Line::Intersects(const Rectangle& rectangle) const {
     if(this->IsVertical()) {
         double Xr = rectangle.GetX();
         double Xrw = rectangle.GetHalfWidth();
-        double Xl = _extent_one.GetX();
+        double Xl = _half_extents.GetX();
         if(Xr > Xl) return false;
         double Xrb = Xr + Xrw;
         if(Xrb < Xl) return false;
@@ -320,17 +246,17 @@ bool Line::Intersects(const Rectangle& rectangle) const {
     } else if(this->IsHorizontal()) {
         double Yr = rectangle.GetY();
         double Yrh = rectangle.GetHalfHeight();
-        double Yl = _extent_one.GetY();
+        double Yl = _half_extents.GetY();
         if(Yr > Yl) return false;
         double Yrb = Yr + Yrh;
         if(Yrb < Yl) return false;
         return true;
     }
 
-    double eOne_x = _extent_one.GetX();
-    double eOne_y = _extent_one.GetY();
-    double eTwo_x = _extent_two.GetX();
-    double eTwo_y = _extent_two.GetY();
+    double eOne_x = GetPointOne().GetX();
+    double eOne_y = GetPointOne().GetY();
+    double eTwo_x = GetPointTwo().GetX();
+    double eTwo_y = GetPointTwo().GetY();
     double rTop = rectangle.GetY();
     double rLeft = rectangle.GetX();
     double rRight = rLeft + rectangle.GetHalfWidth();
@@ -349,8 +275,8 @@ bool Line::Intersects(const Rectangle& rectangle) const {
 bool Line::Intersects(const Circle& circle) const {
     double r2 = circle.GetRadius();
     r2 *= r2;
-    bool eOne_result = ((_extent_one - circle.GetPosition()).GetLengthSquared() < r2);
-    bool eTwo_result = ((_extent_two - circle.GetPosition()).GetLengthSquared() < r2);
+    bool eOne_result = ((GetPointOne() - circle.GetPosition()).GetLengthSquared() < r2);
+    bool eTwo_result = ((GetPointTwo() - circle.GetPosition()).GetLengthSquared() < r2);
     if(eOne_result) return true;
     if(eTwo_result) return true;
     return this->GetDistance(Point(circle.GetPosition())) <= circle.GetRadius();
@@ -405,41 +331,40 @@ double Line::GetDistance(const Line& line, const Point& point) {
 
 double Line::GetDistance(const Line& line, const Vector2D& point) {
 
+    //Taken from http://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line#Vector_formulation
+    //(a - p) - (dot((a - p), n) * n)
+
+    Vector2D a = line.GetPointOne();
+    Vector2D p = point;
+    Vector2D n = (line.GetPointTwo() - line.GetPointOne()).Normalize();
+
+    double distance = ((a - p) - (a2de::Vector2D::DotProduct((a - p), n)) * n).GetLength();
+    return distance;
+
     //Taken from http://stackoverflow.com/a/1501725/421178
 
-    Vector2D v = line.GetPointOne();
-    Vector2D w = line.GetPointTwo();
-    // Return minimum distance between line segment vw and point p
-    const double l2 = a2de::Point::GetDistanceSquared(v, w);  // i.e. |w-v|^2
-    if (Math::IsEqual(l2, 0.0)) return a2de::Point::GetDistance(point, v);   // v == w case
-    // Consider the line extending the segment, parameterized as v + t (w - v).
-    // We find projection of point p onto the line. 
-    // It falls where t = [(p-v) . (w-v)] / ||w-v||^2
-    const float t = Vector2D::DotProduct(point - v, w - v) / l2;
-    if (t < 0.0) return a2de::Point::GetDistance(point, v);       // Beyond the 'v' end of the segment
-    else if (t > 1.0) return a2de::Point::GetDistance(point, w);  // Beyond the 'w' end of the segment
-    const Vector2D projection(v + (w - v) * t);  // Projection falls on the segment
-    return a2de::Point::GetDistance(point, projection);
+    //Vector2D v = line.GetPointOne();
+    //Vector2D w = line.GetPointTwo();
+    //// Return minimum distance between line segment vw and point p
+    //const double l2 = a2de::Point::GetDistanceSquared(v, w);  // i.e. |w-v|^2
+    //if (Math::IsEqual(l2, 0.0)) return a2de::Point::GetDistance(point, v);   // v == w case
+    //// Consider the line extending the segment, parameterized as v + t (w - v).
+    //// We find projection of point p onto the line. 
+    //// It falls where t = [(p-v) . (w-v)] / ||w-v||^2
+    //const float t = Vector2D::DotProduct(point - v, w - v) / l2;
+    //if (t < 0.0) return a2de::Point::GetDistance(point, v);       // Beyond the 'v' end of the segment
+    //else if (t > 1.0) return a2de::Point::GetDistance(point, w);  // Beyond the 'w' end of the segment
+    //const Vector2D projection(v + (w - v) * t);  // Projection falls on the segment
+    //return a2de::Point::GetDistance(point, projection);
 }
 
 void Line::CalculateSlope() {
     //(y2 - y1) / (x2 - x1)
-
-    double yDiff = (_extent_two.GetY() - _extent_one.GetY());
-    double xDiff = (_extent_two.GetX() - _extent_one.GetX());
-    
-    _slope = Vector2D(xDiff, yDiff);
-}
-
-void Line::CalculateLengthSquared() {
-    _length_squared = (_extent_two - _extent_one).GetLengthSquared();
+    _slope = GetPointTwo() - GetPointOne();
 }
 
 void Line::CalculateArea() {
     _area = 0.0;
-}
-void Line::CalculateCenter() {
-    _position = ((_extent_two + _extent_one) / 2.0);
 }
 
 double Line::GetX() const {
@@ -462,11 +387,7 @@ void Line::SetX(double x) { SetPosition(x, GetY()); }
 void Line::SetY(double y) { SetPosition(GetX(), y); }
 void Line::SetPosition(double x, double y) { SetPosition(Vector2D(x, y)); }
 void Line::SetPosition(const Vector2D& position) {
-    this->SetPointOne(position.GetX() - std::abs(position.GetX() - GetPointOne().GetX()), position.GetY() - std::abs(GetPointOne().GetY() - position.GetY()));
-    this->SetPointTwo(position.GetX() + std::abs(position.GetX() - GetPointTwo().GetX()), position.GetY() + std::abs(GetPointTwo().GetY() - position.GetY()));
-    CalculateCenter();
-    CalculateLengthSquared();
-    CalculateSlope();
+    _position = position;
 }
 void Line::SetHalfExtents(double /*half_width*/, double /*half_height*/) { /* DO NOTHING */}
 void Line::SetHalfExtents(const Vector2D& /*half_extents*/) { /* DO NOTHING */ }
@@ -482,7 +403,7 @@ a2de::Vector2D Line::GetPerpendicularSlope() {
 }
 
 a2de::Vector2D Line::GetNormal() const {
-    a2de::Vector2D v(_extent_two - _extent_one);
+    a2de::Vector2D v(GetPointTwo() - GetPointOne());
     return v.GetNormal();
 }
 
