@@ -2,7 +2,7 @@
 
 A2DE_BEGIN
 
-void CableForceGenerator::Update(double /*deltaTime*/) {
+void CableForceGenerator::Update(double deltaTime) {
     if(a2de::Math::IsEqual(_length, 0.0)) return;
     if(_cable_ends.first == nullptr) return;
     if(_cable_ends.second == nullptr) return;
@@ -23,24 +23,29 @@ void CableForceGenerator::Update(double /*deltaTime*/) {
 
     if(square_length < square_distance) {
 
+        double m1 = fb->GetMass();
+        double m2 = sb->GetMass();
+
         a2de::Vector2D sb_to_center = (fbp - sbp).Normalize();
         a2de::Vector2D fb_to_center = (sbp - fbp).Normalize();
 
-        double m1 = fb->GetMass();
-        double m2 = sb->GetMass();
-        double mass_sum = m1 + m2;
+        //Update bodies to get up-to-date F=ma calculations for projection.
+        fb->Update(deltaTime);
+        sb->Update(deltaTime);
 
-        double m1_ratio = m1 / mass_sum;
-        double m2_ratio = m2 / mass_sum;    
-        
         a2de::Vector2D m1force = a2de::Vector2D::GetProjection(m1 * fb->GetAcceleration(), fb_to_center);
         a2de::Vector2D m2force = a2de::Vector2D::GetProjection(m2 * sb->GetAcceleration(), sb_to_center);
+
+        fb->ApplyImpulse(m1force);
+        sb->ApplyImpulse(m2force);
 
         double distance = std::sqrt(square_distance);
         double move_distance = distance - _length;
 
-        fb->ApplyImpulse(m1force);
-        sb->ApplyImpulse(m2force);
+        double mass_sum = m1 + m2;
+        double m1_ratio = m1 / mass_sum;
+        double m2_ratio = m2 / mass_sum;    
+
         sb->SetPosition(sbp + ((sb_to_center * move_distance * m2_ratio)));
         fb->SetPosition(fbp + ((fb_to_center * move_distance * m1_ratio)));
     }
@@ -48,6 +53,7 @@ void CableForceGenerator::Update(double /*deltaTime*/) {
 }
 
 CableForceGenerator::CableForceGenerator(double length) :
+ADTForceGenerator(),
 _length(length)
 { /* DO NOTHING */ }
 

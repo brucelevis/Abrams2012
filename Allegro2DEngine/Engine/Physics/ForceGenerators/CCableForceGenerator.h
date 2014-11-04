@@ -12,6 +12,7 @@ public:
     /**************************************************************************************************
      * <summary>Default constructor.</summary>
      * <remarks>Casey Ugone, 10/26/2014.</remarks>
+     * <param name="length">The length.</param>
      **************************************************************************************************/
     CableForceGenerator(double length);
 

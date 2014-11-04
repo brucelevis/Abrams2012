@@ -14,5 +14,6 @@
 #include "ForceGenerators/CDragForceGenerator.h"
 #include "ForceGenerators/CSpringForceGenerator.h"
 #include "ForceGenerators/CCableForceGenerator.h"
+#include "ForceGenerators/CRodForceGenerator.h"
 
 #endif // A2DE_FORCE_GENERATORS_H
