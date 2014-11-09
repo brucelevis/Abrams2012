@@ -8,6 +8,7 @@ bool a2de_init() {
     bool primatives_init_result = al_init_primitives_addon();
     al_init_font_addon();
     bool ttf_init_result = al_init_ttf_addon();
+    bool install_audio_result = al_install_audio();
     bool acodec_init_result = al_init_acodec_addon();
     bool native_dialog_init_result = al_init_native_dialog_addon();
     bool keyboard_result = al_install_keyboard();
@@ -36,6 +37,11 @@ bool a2de_init() {
 
     if(ttf_init_result == false) {
         std::cout << "TrueType Font add-on to initialize." << std::endl;
+        return false;
+    }
+
+    if(install_audio_result == false) {
+        std::cout << "Audio add-on failed to initialize." << std::endl;
         return false;
     }
 
