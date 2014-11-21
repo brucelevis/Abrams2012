@@ -36,7 +36,7 @@ TileSet* TileSet::CreateTileSet(const std::string& file, int tileWidth, int tile
     return new TileSet(file, tileWidth, tileHeight);
 }
 
-TileSet::TileSet(const std::string& file, int tileWidth, int tileHeight) : _file(), _tileWidth(tileWidth), _tileHeight(tileHeight), _sheetWidth(0), _sheetHeight(0), _max_rows(0), _max_columns(0), _max_tiles(0), _tileSheet(nullptr) {
+TileSet::TileSet(const std::string& file, int tileWidth, int tileHeight) : _file(file), _tileWidth(tileWidth), _tileHeight(tileHeight), _sheetWidth(0), _sheetHeight(0), _max_rows(0), _max_columns(0), _max_tiles(0), _tileSheet(nullptr) {
 
     _tileSheet = BitmapCache::GetBitmap(_file);
     if(_tileSheet == nullptr) {

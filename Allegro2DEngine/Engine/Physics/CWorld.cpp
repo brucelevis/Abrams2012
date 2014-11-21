@@ -35,7 +35,7 @@
 
 A2DE_BEGIN
 
-World::World(const a2de::WorldDef& world_definition) throw(...) : _dimensions(Vector2D(world_definition.width, world_definition.height)), _cameras(MapCams()), _objects(Objects()), _gh(nullptr), _dh(nullptr), _render_context(nullptr), _update_thread(), _grid() {
+World::World(const a2de::WorldDef& world_definition) throw(...) : _dimensions(Vector2D(world_definition.width, world_definition.height)), _cameras(MapCams()), _objects(Objects()), _gh(nullptr), _dh(nullptr), _render_context(nullptr), _grid() {
     a2de::Math::SetWorldScale(world_definition.scale);
     
     try {
@@ -248,7 +248,11 @@ const DragForceGenerator* World::GetDragHandler() const {
 }
 
 void World::Render() {
-    
+
+    _objects.sort([&](const a2de::Object* elem_objectA, const a2de::Object* elem_objectB) ->bool {
+        return elem_objectA->GetZOrder() < elem_objectB->GetZOrder();
+    });
+
     std::for_each(_cameras.begin(), _cameras.end(), [&](const std::pair<unsigned char, Camera>& elem_camera)
     {
         std::for_each(_objects.begin(), _objects.end(), [&](a2de::Object* elem_object) {
@@ -276,14 +280,6 @@ void World::Render() {
 }
 
 void World::Update(double deltaTime) {
-
-    if(_update_thread.joinable()) _update_thread.join();
-    _update_thread = std::thread(&World::UpdateImpl, this, deltaTime);
-    _update_thread.join();
-
-}
-
-void World::UpdateImpl(double deltaTime) {
     UpdateObjectsInWorld(deltaTime);
     ResolveCollisions(deltaTime);
 }
@@ -351,8 +347,8 @@ World::ContactPairs World::BroadPhaseCollision() {
                 current_cps_pairs.erase(contacts_iter++);
                 continue;
             }
-            a2de::Rectangle fR(fBB->GetTransform().GetPosition(), fBB->GetHalfExtents() * 2.0);
-            a2de::Rectangle sR(sBB->GetTransform().GetPosition(), sBB->GetHalfExtents() * 2.0);
+            a2de::Rectangle fR(fBB->GetTransform().GetPosition(), fBB->GetHalfExtents());
+            a2de::Rectangle sR(sBB->GetTransform().GetPosition(), sBB->GetHalfExtents());
             if(fR.Intersects(sR) == false) {
                 current_cps_pairs.erase(contacts_iter++);
                 continue;
@@ -504,11 +500,8 @@ void World::VelocitySolver(a2de::RigidBody* first_body, a2de::RigidBody* second_
 
     a2de::Vector2D v2prime(v2x, v2y);
 
-    double first_r = first_body->GetRestitution();
-    double second_r = second_body->GetRestitution();
-
-    first_body->SetVelocity(first_r * v1prime);
-    second_body->SetVelocity(second_r * v2prime);
+    first_body->SetVelocity(v1prime);
+    second_body->SetVelocity(v2prime);
 
 }
 
@@ -538,20 +531,14 @@ void World::PositionSolver(a2de::RigidBody* first_body, a2de::RigidBody* second_
     a2de::Vector2D first_contact_normal = collision_results[0].GetContactNormal();
     a2de::Vector2D second_contact_normal = collision_results[1].GetContactNormal();
 
-    a2de::Vector2D first_interpenetration = (first_mass / mass_sum) * first_contact_normal * collision_results[0].GetPenetrationAmount();
-    a2de::Vector2D second_interpenetration = (second_mass / mass_sum) * second_contact_normal * collision_results[1].GetPenetrationAmount();
+    double first_penetration_amount = collision_results[0].GetPenetrationAmount();
+    double second_penetration_amount = collision_results[1].GetPenetrationAmount();
+
+    a2de::Vector2D first_interpenetration = (first_mass / mass_sum) * first_contact_normal * first_penetration_amount;
+    a2de::Vector2D second_interpenetration = (second_mass / mass_sum) * second_contact_normal * second_penetration_amount;
     
-    a2de::Vector2D first_acceleration = first_body->GetAcceleration();
-    a2de::Vector2D second_acceleration = second_body->GetAcceleration();
-
-    a2de::Vector2D F1 = first_mass * first_acceleration;
-    a2de::Vector2D F2 = second_mass * second_acceleration;
-
-    first_body->ApplyImpulse(/*-(F1.GetProjectionOnXAxis() + F1.GetProjectionOnYAxis()) + */ (first_mass / mass_sum) * a2de::Vector2D::GetProjection(F1, first_contact_normal));
-    second_body->ApplyImpulse(/*-(F2.GetProjectionOnXAxis() + F2.GetProjectionOnYAxis()) + */ (second_mass / mass_sum) * a2de::Vector2D::GetProjection(F2, second_contact_normal));
-
-    //first_body->SetPosition((first_position + first_interpenetration));
-    //second_body->SetPosition((second_position + second_interpenetration));
+    first_body->SetPosition((first_position + first_interpenetration));
+    second_body->SetPosition((second_position + second_interpenetration));
 }
 
 std::vector<ContactData> World::ShapeCollisionSolver(a2de::RigidBody* first_body, a2de::RigidBody* second_body) {
@@ -601,21 +588,20 @@ std::vector<ContactData> World::CircleCircleCollisionSolver(a2de::RigidBody* fir
     a2de::Circle first_shape(*dynamic_cast<a2de::Circle*>(first_body->GetCollisionShape()));
     a2de::Circle second_shape(*dynamic_cast<a2de::Circle*>(second_body->GetCollisionShape()));
 
-    std::vector<ContactData> contact_result;
-    if(first_shape.Intersects(second_shape) == false) return contact_result;
-
+    if(first_shape.Intersects(second_shape) == false) return std::vector<ContactData>();
 
     a2de::Vector2D direction_of_first = second_shape.GetPosition() - first_shape.GetPosition();
     a2de::Vector2D direction_of_second = first_shape.GetPosition() - second_shape.GetPosition();
 
-    a2de::Vector2D first_collision_normal = first_shape.GetPosition() - second_shape.GetPosition();
-    a2de::Vector2D second_collision_normal = second_shape.GetPosition() - first_shape.GetPosition();
+    a2de::Vector2D first_collision_normal = direction_of_second / direction_of_second.GetLength();
+    a2de::Vector2D second_collision_normal = direction_of_first / direction_of_first.GetLength();
     
-    a2de::Vector2D first_contact_point = direction_of_first.Normalize() * first_shape.GetRadius();
-    a2de::Vector2D second_contact_point = direction_of_second.Normalize() * second_shape.GetRadius();
+    double interpenetration_distance = direction_of_second.GetLength() - (first_shape.GetRadius() + second_shape.GetRadius());
 
-    double interpenetration_distance = (second_contact_point - first_contact_point).GetLength();
+    a2de::Vector2D first_contact_point = interpenetration_distance * first_collision_normal;
+    a2de::Vector2D second_contact_point = interpenetration_distance * second_collision_normal;
 
+    std::vector<ContactData> contact_result;
     contact_result.push_back(ContactData(first_contact_point, first_collision_normal, interpenetration_distance, *first_body, *second_body));
     contact_result.push_back(ContactData(second_contact_point, second_collision_normal, interpenetration_distance, *second_body, *first_body));
     return contact_result;
@@ -625,12 +611,13 @@ std::vector<ContactData> World::CircleLineCollisionSolver(a2de::RigidBody* first
     a2de::Circle first_shape(*dynamic_cast<a2de::Circle*>(first_body->GetCollisionShape()));
     a2de::Line second_shape(*dynamic_cast<a2de::Line*>(second_body->GetCollisionShape()));
 
-    std::vector<ContactData> contact_result;
-    if(first_shape.Intersects(second_shape) == false) return contact_result;
+    if(first_shape.Intersects(second_shape) == false) return std::vector<ContactData>();
 
     double distance_s = a2de::Point(first_shape.GetPosition()).GetDistanceSquared(second_shape.GetPointOne(), second_shape.GetPointTwo());
     double r_s = first_shape.GetRadius();
     r_s *= r_s;
+
+    std::vector<ContactData> contact_result;
     if(distance_s < r_s || a2de::Math::IsEqual(distance_s, r_s)) {
         double distance = std::sqrt(distance_s);
         double r = std::sqrt(r_s);
@@ -649,8 +636,8 @@ std::vector<ContactData> World::CircleRectangleCollisionSolver(a2de::RigidBody* 
     a2de::Circle first_shape(*dynamic_cast<a2de::Circle*>(first_body->GetCollisionShape()));
     a2de::Rectangle second_shape(*dynamic_cast<a2de::Rectangle*>(second_body->GetCollisionShape()));
 
-    std::vector<ContactData> contact_result;
-    if(first_shape.Intersects(second_shape) == false) return contact_result;
+    
+    if(first_shape.Intersects(second_shape) == false) return std::vector<ContactData>();
 
     double resultTop = Point(first_shape.GetPosition()).GetDistanceSquared(second_shape.GetTop().GetPointOne(), second_shape.GetTop().GetPointTwo());
     double resultLeft = Point(first_shape.GetPosition()).GetDistanceSquared(second_shape.GetLeft().GetPointOne(), second_shape.GetLeft().GetPointTwo());
@@ -662,6 +649,8 @@ std::vector<ContactData> World::CircleRectangleCollisionSolver(a2de::RigidBody* 
     double interpenetraction_depth_s = std::min(std::min(resultTop, resultBottom), std::min(resultLeft, resultRight));
 
     double interpenetraction_depth = std::sqrt(interpenetraction_depth_s);
+
+    std::vector<ContactData> contact_result;
     contact_result.push_back(ContactData(contact_point, contact_normal, interpenetraction_depth, *first_body, *second_body));
 
     return contact_result;
@@ -671,18 +660,18 @@ std::vector<ContactData> World::RectangleLineCollisionSolver(a2de::RigidBody* fi
     a2de::Rectangle first_shape(*dynamic_cast<a2de::Rectangle*>(first_body->GetCollisionShape()));
     a2de::Line second_shape(*dynamic_cast<a2de::Line*>(second_body->GetCollisionShape()));
 
-    std::vector<ContactData> contact_result;
-    if(first_shape.Intersects(second_shape) == false) return contact_result;
+    if(first_shape.Intersects(second_shape) == false) return std::vector<ContactData>();
 
-    return contact_result;
+    //return contact_result;
+    return std::vector<ContactData>();
 }
 
 std::vector<ContactData> World::RectangleRectangleCollisionSolver(a2de::RigidBody* first_body, a2de::RigidBody* second_body) {
     a2de::Rectangle first_shape(*dynamic_cast<a2de::Rectangle*>(first_body->GetCollisionShape()));
     a2de::Rectangle second_shape(*dynamic_cast<a2de::Rectangle*>(second_body->GetCollisionShape()));
 
-    std::vector<ContactData> contact_result;
-    if(first_shape.Intersects(second_shape) == false) return contact_result;
+
+    if(first_shape.Intersects(second_shape) == false) return std::vector<ContactData>();
 
     a2de::Vector2D p1 = first_shape.GetPosition();
     a2de::Vector2D p2 = second_shape.GetPosition();
@@ -708,6 +697,7 @@ std::vector<ContactData> World::RectangleRectangleCollisionSolver(a2de::RigidBod
     double p2pax = (p2_horizontal_projection * p2hw).GetLength();
     double p2pay = (p2_vertical_projection * p2hh).GetLength();
 
+    std::vector<ContactData> contact_result;
     contact_result.push_back(ContactData(p1_horizontal_projection, p1_to_p2_direction, p1pax, *first_body, *second_body));
     contact_result.push_back(ContactData(p1_vertical_projection, p1_to_p2_direction, p1pay, *first_body, *second_body));
 
@@ -727,10 +717,6 @@ a2de::QuadTree<a2de::Vector2D>* World::GetGrid() {
 
 void World::DeallocateWorld() {
 
-    if(_update_thread.joinable()) {
-        _update_thread.join();
-    }
-    
     delete _grid;
     _grid = nullptr;
 

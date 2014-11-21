@@ -17,6 +17,13 @@ public:
      **************************************************************************************************/
     virtual void Draw(ALLEGRO_BITMAP* dest)=0;
     virtual ~IDrawable(){ /* DO NOTHING */ }
+
+    void SetZIndex(unsigned long z_index);
+    unsigned long GetZOrder() const;
+    unsigned long GetZOrder();
+
+private:
+    unsigned long _z_index;
 };
 
 A2DE_END

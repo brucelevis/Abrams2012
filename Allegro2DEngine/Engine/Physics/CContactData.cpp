@@ -11,8 +11,8 @@
 
 A2DE_BEGIN
 
-ContactData::ContactData(const a2de::Vector2D& contact_point, const a2de::Vector2D& contact_normal, double penetration_amount, const a2de::RigidBody& body_one, const a2de::RigidBody& body_two)
-: _contact_point(contact_point), _contact_normal(contact_normal), _penetration_amount(penetration_amount), _body_one(const_cast<a2de::RigidBody&>(body_one)), _body_two(const_cast<a2de::RigidBody&>(body_two))
+ContactData::ContactData(const a2de::Vector2D& contact_point, const a2de::Vector2D& contact_normal, double penetration_amount, a2de::RigidBody& body_one, a2de::RigidBody& body_two)
+: _contact_point(contact_point), _contact_normal(contact_normal), _penetration_amount(penetration_amount), _body_one(body_one), _body_two(body_two)
 {
     /* DO NOTHING */
 }

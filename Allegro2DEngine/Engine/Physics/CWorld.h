@@ -14,7 +14,6 @@
 #include <vector>
 #include <iterator>
 #include <set>
-#include <thread>
 
 #include "a2de_force_generators.h"
 #include "CCamera.h"
@@ -489,13 +488,6 @@ private:
      **************************************************************************************************/
     std::vector<ContactData> RectangleRectangleCollisionSolver(a2de::RigidBody* first_body, a2de::RigidBody* second_body);
 
-    /**************************************************************************************************
-     * <summary>Method for threading the physics calculations.</summary>
-     * <remarks>Casey Ugone, 10/25/2014.</remarks>
-     * <param name="deltaTime">The delta time.</param>
-     **************************************************************************************************/
-    void UpdateImpl(double deltaTime);
-
     /// <summary> The dimensions </summary>
     Vector2D _dimensions;
     /// <summary> The cameras </summary>
@@ -510,8 +502,6 @@ private:
 
     /// <summary> The render manager.</summary>
    a2de::RenderManager* _render_context;
-   /// <summary> The update thread. </summary>
-   std::thread _update_thread;
 
    /// <summary> The spatial partition grid </summary>
    a2de::QuadTree<a2de::Vector2D>* _grid;

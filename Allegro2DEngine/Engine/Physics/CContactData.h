@@ -28,7 +28,7 @@ public:
      * <param name="body_one">          The body one.</param>
      * <param name="body_two">          The body two.</param>
      **************************************************************************************************/
-    ContactData(const a2de::Vector2D& contact_point, const a2de::Vector2D& contact_normal, double penetration_amount, const a2de::RigidBody& body_one, const a2de::RigidBody& body_two);
+    ContactData(const a2de::Vector2D& contact_point, const a2de::Vector2D& contact_normal, double penetration_amount, a2de::RigidBody& body_one, a2de::RigidBody& body_two);
 
     /**************************************************************************************************
      * <summary>Copy constructor.</summary>
